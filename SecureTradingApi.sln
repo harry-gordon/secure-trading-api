@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureTradingApi", "SecureTradingApi\SecureTradingApi.csproj", "{4FE2A3CB-4CF3-4182-892D-1330C4FC4EB9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureTradingApi.Example", "SecureTradingApi.Example\SecureTradingApi.Example.csproj", "{7B6ABFAA-EC7C-4494-B5DB-80F88929D595}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution files", "{D546C903-CB90-446E-BB34-FFC11A393E67}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FE2A3CB-4CF3-4182-892D-1330C4FC4EB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FE2A3CB-4CF3-4182-892D-1330C4FC4EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE2A3CB-4CF3-4182-892D-1330C4FC4EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FE2A3CB-4CF3-4182-892D-1330C4FC4EB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B6ABFAA-EC7C-4494-B5DB-80F88929D595}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B6ABFAA-EC7C-4494-B5DB-80F88929D595}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B6ABFAA-EC7C-4494-B5DB-80F88929D595}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B6ABFAA-EC7C-4494-B5DB-80F88929D595}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B189E23D-B1E5-4B7D-8137-2708DD02B90C}
+	EndGlobalSection
+EndGlobal
