@@ -3,8 +3,9 @@ using SecureTradingApi.Models;
 
 namespace SecureTradingApi.Services
 {
-    public interface ISecureTradingTransactionService
+    public interface ISecureTradingService
     {
         Task<TransactionQueryResponse> QueryAsync(TransactionQueryRequest request);
+        Task<AuthResponse> AuthAsync(AuthRequest request);
     }
 }

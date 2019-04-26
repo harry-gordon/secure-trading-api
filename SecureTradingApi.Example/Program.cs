@@ -35,7 +35,7 @@ namespace SecureTradingApi.Example
             };
 
             var httpClient = new HttpClient();
-            var service = new SecureTradingTransactionService(httpClient, secureTradingConfig);
+            var service = new SecureTradingService(httpClient, secureTradingConfig);
 
             var byteArray = Encoding.ASCII.GetBytes($"{secureTradingConfig.Username}:{secureTradingConfig.Password}");
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));

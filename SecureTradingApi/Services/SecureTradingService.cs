@@ -11,7 +11,7 @@ using SecureTradingApi.Models.Abstract;
 
 namespace SecureTradingApi.Services
 {
-    public class SecureTradingTransactionService : ISecureTradingTransactionService
+    public class SecureTradingService : ISecureTradingService
     {
         private readonly HttpClient _httpClient;
         private readonly SecureTradingConfiguration _config;
@@ -23,7 +23,7 @@ namespace SecureTradingApi.Services
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 
-        public SecureTradingTransactionService(HttpClient httpClient, SecureTradingConfiguration config)
+        public SecureTradingService(HttpClient httpClient, SecureTradingConfiguration config)
         {
             _httpClient = httpClient;
             _config = config;
@@ -31,10 +31,19 @@ namespace SecureTradingApi.Services
 
         public async Task<TransactionQueryResponse> QueryAsync(TransactionQueryRequest innerRequest)
         {
-            var request = BuildRequest<TransactionQueryRequest>(innerRequest);
+            var request = BuildRequest(innerRequest);
             var response =
                 await PostAsync<SecureTradingRequest<TransactionQueryRequest>, 
                     SecureTradingResponse<TransactionQueryResponse>>(request);
+            return response.Response;
+        }
+
+        public async Task<AuthResponse> AuthAsync(AuthRequest innerRequest)
+        {
+            var request = BuildRequest(innerRequest);
+            var response =
+                await PostAsync<SecureTradingRequest<AuthRequest>,
+                    SecureTradingResponse<AuthResponse>>(request);
             return response.Response;
         }
 
