@@ -40,15 +40,27 @@ namespace SecureTradingApi.Example
             var byteArray = Encoding.ASCII.GetBytes($"{secureTradingConfig.Username}:{secureTradingConfig.Password}");
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
+            var cacheToken = "eyJkYXRhY2VudGVydXJsIjogImh0dHBzOi8vd2Vic2VydmljZXMuc2VjdXJldHJhZGluZy5uZXQiLCAiY2FjaGV0b2tlbiI6ICI0LTI3YjE0MTNiMzQwMmNhYTgyYTliZjk1ZTkxOWQ4ZTRlZTFjZGU4MjBmMTBmM2MzMjU3ZDFjYmJmZTI4MDdmYTgifQ==";
+
+            var orderReference = Guid.NewGuid().ToString();
+
             var response = await service.QueryAsync(new TransactionQueryRequest
             {
                 Filter = new TransactionQueryFilter
                 {
                     CurrencyIso3a = BuildValueList("GBP"),
-                    SiteReference = BuildValueList(secureTradingConfig.SiteReference),
-                    TransactionReference = BuildValueList("23-9-1", "23-9-2")
+                    SiteReference = BuildValueList(secureTradingConfig.SiteReference)
                 }
             });
+
+            //var response = await service.AuthAsync(new AuthRequest()
+            //{
+            //    BaseAmount = "1050",
+            //    CacheToken = cacheToken,
+            //    CurrencyIso3a = "GBP",
+            //    OrderReference = orderReference,
+            //    SiteReference = secureTradingConfig.SiteReference
+            //});
         }
 
         private static IConfiguration GetConfiguration()

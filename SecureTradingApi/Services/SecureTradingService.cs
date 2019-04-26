@@ -101,7 +101,12 @@ namespace SecureTradingApi.Services
 
             if (innerResponse.RequestTypeDescription == RequestTypeDescription.ERROR)
             {
-                throw new SecureTradingException(errorResponse, $"ST returned an error response: {innerResponse.ErrorMessage} ({innerResponse.ErrorCode})");
+                var message = $"ST returned an error response: {innerResponse.ErrorMessage} ({innerResponse.ErrorCode})";
+                if (innerResponse.ErrorData.Any())
+                {
+                    message = $"{message}: {string.Join(',', innerResponse.ErrorData)}";
+                }
+                throw new SecureTradingException(errorResponse, message);
             }
 
             if (errorResponse.Responses.Length != 1)

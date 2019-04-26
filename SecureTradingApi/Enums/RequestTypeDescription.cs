@@ -2,6 +2,7 @@
 {
     public enum RequestTypeDescription
     {
+        Invalid, // Default value, should never occur
         TRANSACTIONQUERY,
         AUTH,
         ERROR

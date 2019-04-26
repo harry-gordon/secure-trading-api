@@ -1,6 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using Newtonsoft.Json;
 using SecureTradingApi.Models.Abstract;
 
 namespace SecureTradingApi.Models
@@ -15,5 +13,11 @@ namespace SecureTradingApi.Models
     {
         [JsonProperty("updatereason")]
         public string UpdateReason { get; set; }
+        [JsonProperty("sitereference")]
+        public string SiteReference { get; set; }
+        [JsonProperty("expirydate")]
+        public string ExpiryDate { get; set; }
+        [JsonProperty("fraudrating")]
+        public int FraudRating { get; set; }
     }
 }

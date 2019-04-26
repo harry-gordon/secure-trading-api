@@ -1,7 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using SecureTradingApi.Enums;
-using SecureTradingApi.Models.Abstract;
+﻿using SecureTradingApi.Models.Abstract;
 
 namespace SecureTradingApi.Models
 {

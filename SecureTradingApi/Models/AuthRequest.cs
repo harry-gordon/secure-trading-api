@@ -22,5 +22,7 @@ namespace SecureTradingApi.Models
         public string OrderReference { get; set; }
         [JsonProperty("cachetoken")]
         public string CacheToken { get; set; }
+        [JsonProperty("sitereference")]
+        public string SiteReference { get; set; }
     }
 }

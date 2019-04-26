@@ -1,0 +1,37 @@
+{
+    "requestreference": "W1-c0a88176", 
+    "version": "1.00", 
+    "response": [
+        {
+            "transactionstartedtimestamp": "2019-04-26 12:49:30", 
+            "livestatus": "0", 
+            "issuer": "SecureTrading Test Issuer1", 
+            "splitfinalnumber": "1", 
+            "dccenabled": "0", 
+            "settleduedate": "2019-04-26", 
+            "errorcode": "0", 
+            "baseamount": "1050", 
+            "tid": "27882788", 
+            "merchantnumber": "00000000", 
+            "securityresponsepostcode": "0", 
+            "transactionreference": "1-9-4684022", 
+            "merchantname": "Example Ltd", 
+            "paymenttypedescription": "VISA", 
+            "orderreference": "43d93917-f99e-4cbe-8088-9b238c0f1bff", 
+            "accounttypedescription": "ECOM", 
+            "acquirerresponsecode": "00", 
+            "requesttypedescription": "AUTH", 
+            "securityresponsesecuritycode": "2", 
+            "currencyiso3a": "GBP", 
+            "authcode": "TEST68", 
+            "errormessage": "Ok", 
+            "operatorname": "ExampleApiUser", 
+            "merchantcountryiso2a": "GB", 
+            "maskedpan": "411111######1111", 
+            "securityresponseaddress": "0", 
+            "issuercountryiso2a": "US", 
+            "settlestatus": "0"
+        }
+    ], 
+    "secrand": "H5334rCzqZF4ZRR"
+}
