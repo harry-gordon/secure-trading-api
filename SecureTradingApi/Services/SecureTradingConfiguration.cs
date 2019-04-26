@@ -7,5 +7,6 @@
         public string SiteReference { get; set; }
         public string Alias { get; set; }
         public string Endpoint { get; set; }
+        public string Version { get; set; }
     }
 }

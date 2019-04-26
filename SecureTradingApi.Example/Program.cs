@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -31,7 +30,8 @@ namespace SecureTradingApi.Example
                 SiteReference = configuration["SecureTrading:SiteReference"],
                 Endpoint = configuration["SecureTrading:Endpoint"],
                 Username = configuration["SecureTrading:Username"],
-                Password = configuration["SecureTrading:Password"]
+                Password = configuration["SecureTrading:Password"],
+                Version = "1.00"
             };
 
             var httpClient = new HttpClient();
@@ -42,17 +42,11 @@ namespace SecureTradingApi.Example
 
             var response = await service.QueryAsync(new TransactionQueryRequest
             {
-                Alias = secureTradingConfig.Alias,
-                Version = "1.00",
-                Request = new TransactionQueryRequest.InnerRequest
+                Filter = new TransactionQueryFilter
                 {
-                    RequestTypeDescriptions = new [] { RequestTypeDescription.TRANSACTIONQUERY },
-                    Filter = new TransactionQueryRequest.Filter
-                    {
-                        CurrencyIso3a = BuildValueList("GBP"),
-                        SiteReference = BuildValueList(secureTradingConfig.SiteReference),
-                        TransactionReference = BuildValueList("23-9-1", "23-9-2")
-                    }
+                    CurrencyIso3a = BuildValueList("GBP"),
+                    SiteReference = BuildValueList(secureTradingConfig.SiteReference),
+                    TransactionReference = BuildValueList("23-9-1", "23-9-2")
                 }
             });
         }

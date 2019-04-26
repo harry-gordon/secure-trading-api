@@ -2,7 +2,7 @@
 
 namespace SecureTradingApi.Models
 {
-    public class ErrorResponse : BaseResponse<ErrorResponse.InnerResponse>
+    public class ErrorResponse : SecureTradingResponse<ErrorResponse.InnerResponse>
     {
         public class InnerResponse : BaseInnerResponse { }
     }

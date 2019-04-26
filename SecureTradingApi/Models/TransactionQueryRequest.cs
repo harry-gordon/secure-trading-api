@@ -1,23 +1,25 @@
 ﻿using Newtonsoft.Json;
+using SecureTradingApi.Enums;
 using SecureTradingApi.Models.Abstract;
 
 namespace SecureTradingApi.Models
 {
-    public class TransactionQueryRequest : BaseRequest<TransactionQueryRequest.InnerRequest>
+    public class TransactionQueryRequest : BaseInnerRequest
     {
-        public class InnerRequest : BaseInnerRequest
-        {
-            public Filter Filter { get; set; }
-        }
+        public TransactionQueryFilter Filter { get; set; }
 
-        public class Filter
+        public TransactionQueryRequest() : base(RequestTypeDescription.TRANSACTIONQUERY)
         {
-            [JsonProperty("sitereference")]
-            public ValueWrapper[] SiteReference { get; set; }
-            [JsonProperty("currencyiso3a")]
-            public ValueWrapper[] CurrencyIso3a { get; set; }
-            [JsonProperty("transactionreference")]
-            public ValueWrapper[] TransactionReference { get; set; }
         }
+    }
+
+    public class TransactionQueryFilter
+    {
+        [JsonProperty("sitereference")]
+        public ValueWrapper[] SiteReference { get; set; }
+        [JsonProperty("currencyiso3a")]
+        public ValueWrapper[] CurrencyIso3a { get; set; }
+        [JsonProperty("transactionreference")]
+        public ValueWrapper[] TransactionReference { get; set; }
     }
 }

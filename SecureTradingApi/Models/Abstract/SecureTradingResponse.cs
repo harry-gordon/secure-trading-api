@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace SecureTradingApi.Models.Abstract
 {
-    public abstract class BaseResponse<TResponse> where TResponse : BaseInnerResponse 
+    public class SecureTradingResponse<TResponse> where TResponse : BaseInnerResponse 
     {
         [JsonProperty("requestreference")]
         public string RequestReference { get; set; }

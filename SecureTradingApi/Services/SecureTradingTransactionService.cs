@@ -29,9 +29,23 @@ namespace SecureTradingApi.Services
             _config = config;
         }
 
-        public async Task<TransactionQueryResponse> QueryAsync(TransactionQueryRequest request)
+        public async Task<TransactionQueryResponse> QueryAsync(TransactionQueryRequest innerRequest)
         {
-            return await PostAsync<TransactionQueryRequest, TransactionQueryResponse>(request);
+            var request = BuildRequest<TransactionQueryRequest>(innerRequest);
+            var response =
+                await PostAsync<SecureTradingRequest<TransactionQueryRequest>, 
+                    SecureTradingResponse<TransactionQueryResponse>>(request);
+            return response.Response;
+        }
+
+        private SecureTradingRequest<TRequest> BuildRequest<TRequest>(TRequest innerRequest) where TRequest : BaseInnerRequest
+        {
+            return new SecureTradingRequest<TRequest>
+            {
+                Alias = _config.Alias,
+                Version = _config.Version,
+                Request = innerRequest
+            };
         }
 
         private async Task<TResponse> GetAsync<TResponse>()
