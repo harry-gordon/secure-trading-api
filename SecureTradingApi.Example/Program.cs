@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using SecureTradingApi.Enums;
 using SecureTradingApi.Models;
 using SecureTradingApi.Services;
 
@@ -40,27 +39,40 @@ namespace SecureTradingApi.Example
             var byteArray = Encoding.ASCII.GetBytes($"{secureTradingConfig.Username}:{secureTradingConfig.Password}");
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-            var cacheToken = "eyJkYXRhY2VudGVydXJsIjogImh0dHBzOi8vd2Vic2VydmljZXMuc2VjdXJldHJhZGluZy5uZXQiLCAiY2FjaGV0b2tlbiI6ICI0LTI3YjE0MTNiMzQwMmNhYTgyYTliZjk1ZTkxOWQ4ZTRlZTFjZGU4MjBmMTBmM2MzMjU3ZDFjYmJmZTI4MDdmYTgifQ==";
+            var cacheToken = "eyJkYXRhY2VudGVydXJsIjogImh0dHBzOi8vd2Vic2VydmljZXMuc2VjdXJldHJhZGluZy5uZXQiLCAiY2FjaGV0b2tlbiI6ICI2LTAyNDQ1NDM4MTg5MGZlMmIyNGY5NWMzZTg5ODg1NzBmY2UzZjE1NWM0ODhiODQzZTk2Yzc2YjY4YjBmOTlhOTQifQ==";
 
             var orderReference = Guid.NewGuid().ToString();
 
-            var response = await service.QueryAsync(new TransactionQueryRequest
+            // AUTH a payment
+            var auth = await service.AuthAsync(new AuthRequest()
+            {
+                BaseAmount = "1050",
+                CacheToken = cacheToken,
+                CurrencyIso3a = "GBP",
+                OrderReference = orderReference,
+                SiteReference = secureTradingConfig.SiteReference
+            });
+
+            // Find that payment in queries
+            var query = await service.QueryAsync(new TransactionQueryRequest
             {
                 Filter = new TransactionQueryFilter
                 {
                     CurrencyIso3a = BuildValueList("GBP"),
-                    SiteReference = BuildValueList(secureTradingConfig.SiteReference)
+                    OrderReference = BuildValueList(orderReference)
                 }
             });
 
-            //var response = await service.AuthAsync(new AuthRequest()
-            //{
-            //    BaseAmount = "1050",
-            //    CacheToken = cacheToken,
-            //    CurrencyIso3a = "GBP",
-            //    OrderReference = orderReference,
-            //    SiteReference = secureTradingConfig.SiteReference
-            //});
+            var transaction = query.Records.First();
+
+            // Use that payment as parent for a payout
+            var refund = await service.PayoutAsync(new PayoutRequest
+            {
+                ParentTransactionReference = transaction.TransactionReference,
+                BaseAmount = "1050",
+                CurrencyIso3a = "GBP",
+                SiteReference = secureTradingConfig.SiteReference
+            });
         }
 
         private static IConfiguration GetConfiguration()

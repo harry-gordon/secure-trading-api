@@ -5,6 +5,7 @@
         Invalid, // Default value, should never occur
         TRANSACTIONQUERY,
         AUTH,
+        REFUND,
         ERROR
     }
 }

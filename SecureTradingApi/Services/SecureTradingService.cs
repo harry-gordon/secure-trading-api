@@ -47,6 +47,15 @@ namespace SecureTradingApi.Services
             return response.Response;
         }
 
+        public async Task<RefundResponse> PayoutAsync(PayoutRequest innerRequest)
+        {
+            var request = BuildRequest(innerRequest);
+            var response =
+                await PostAsync<SecureTradingRequest<PayoutRequest>,
+                    SecureTradingResponse<RefundResponse>>(request);
+            return response.Response;
+        }
+
         private SecureTradingRequest<TRequest> BuildRequest<TRequest>(TRequest innerRequest) where TRequest : BaseInnerRequest
         {
             return new SecureTradingRequest<TRequest>

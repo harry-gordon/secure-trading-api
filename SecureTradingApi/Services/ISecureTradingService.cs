@@ -7,5 +7,6 @@ namespace SecureTradingApi.Services
     {
         Task<TransactionQueryResponse> QueryAsync(TransactionQueryRequest request);
         Task<AuthResponse> AuthAsync(AuthRequest request);
+        Task<RefundResponse> PayoutAsync(PayoutRequest request);
     }
 }

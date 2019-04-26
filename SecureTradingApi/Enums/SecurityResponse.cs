@@ -2,9 +2,9 @@
 {
     public enum SecurityResponse
     {
-        NotSent = 0,
-        UnableToCheck = 1,
-        Verified = 2,
-        Rejected = 2
+        NotGiven = 0,
+        NotChecked = 1,
+        Matches = 2,
+        NotMatched = 2
     }
 }
