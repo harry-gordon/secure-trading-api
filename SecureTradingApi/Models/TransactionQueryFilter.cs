@@ -30,7 +30,7 @@ namespace SecureTradingApi.Models
         public ValueWrapper[] StartTime { get; set; }
         [JsonProperty("endtimestamp")]
         public ValueWrapper[] EndTime { get; set; }
-        [JsonProperty("orderereference")]
+        [JsonProperty("orderreference")]
         public ValueWrapper[] OrderReference { get; set; }
         [JsonProperty("pan")]
         public ValueWrapper[] CardNumber { get; set; }
