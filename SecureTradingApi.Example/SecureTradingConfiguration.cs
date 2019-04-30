@@ -1,6 +1,8 @@
-﻿namespace SecureTradingApi.Services
+﻿using SecureTradingApi.Services;
+
+namespace SecureTradingApi.Example
 {
-    public class SecureTradingConfiguration
+    public class SecureTradingConfiguration : ISecureTradingConfiguration
     {
         public string Username { get; set; }
         public string Password { get; set; }

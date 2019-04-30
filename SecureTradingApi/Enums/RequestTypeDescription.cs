@@ -4,8 +4,11 @@
     {
         Invalid, // Default value, should never occur
         TRANSACTIONQUERY,
+        TRANSACTIONUPDATE,
         AUTH,
         REFUND,
+        ORDER,
+        ORDERDETAILS,
         ERROR
     }
 }

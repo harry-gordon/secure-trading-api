@@ -11,10 +11,10 @@ using SecureTradingApi.Models.Abstract;
 
 namespace SecureTradingApi.Services
 {
-    public class SecureTradingService : ISecureTradingService
+    public class SecureTradingClient : ISecureTradingClient
     {
         private readonly HttpClient _httpClient;
-        private readonly SecureTradingConfiguration _config;
+        private readonly ISecureTradingConfiguration _config;
 
         private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
         {
@@ -23,7 +23,7 @@ namespace SecureTradingApi.Services
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 
-        public SecureTradingService(HttpClient httpClient, SecureTradingConfiguration config)
+        public SecureTradingClient(HttpClient httpClient, ISecureTradingConfiguration config)
         {
             _httpClient = httpClient;
             _config = config;
@@ -53,6 +53,15 @@ namespace SecureTradingApi.Services
             var response =
                 await PostAsync<SecureTradingRequest<PayoutRequest>,
                     SecureTradingResponse<RefundResponse>>(request);
+            return response.Response;
+        }
+
+        public async Task<TransactionUpdateResponse> UpdateTransaction(TransactionUpdateRequest innerRequest)
+        {
+            var request = BuildRequest(innerRequest);
+            var response =
+                await PostAsync<SecureTradingRequest<TransactionUpdateRequest>,
+                    SecureTradingResponse<TransactionUpdateResponse>>(request);
             return response.Response;
         }
 
@@ -113,7 +122,7 @@ namespace SecureTradingApi.Services
                 var message = $"ST returned an error response: {innerResponse.ErrorMessage} ({innerResponse.ErrorCode})";
                 if (innerResponse.ErrorData.Any())
                 {
-                    message = $"{message}: {string.Join(',', innerResponse.ErrorData)}";
+                    message = $"{message}: {string.Join(",", innerResponse.ErrorData)}";
                 }
                 throw new SecureTradingException(errorResponse, message);
             }

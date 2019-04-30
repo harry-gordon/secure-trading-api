@@ -3,10 +3,11 @@ using SecureTradingApi.Models;
 
 namespace SecureTradingApi.Services
 {
-    public interface ISecureTradingService
+    public interface ISecureTradingClient
     {
         Task<TransactionQueryResponse> QueryAsync(TransactionQueryRequest request);
         Task<AuthResponse> AuthAsync(AuthRequest request);
         Task<RefundResponse> PayoutAsync(PayoutRequest request);
+        Task<TransactionUpdateResponse> UpdateTransaction(TransactionUpdateRequest request);
     }
 }

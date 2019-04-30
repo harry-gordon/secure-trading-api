@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using SecureTradingApi.Models;
 using SecureTradingApi.Services;
 
-namespace SecureTradingApi.cONSOLE
+namespace SecureTradingApi.Console
 {
     class Program
     {
@@ -19,7 +19,7 @@ namespace SecureTradingApi.cONSOLE
 
         static async Task MainAsync()
         {
-            Console.WriteLine("Hello World!");
+            System.Console.WriteLine("Hello World!");
 
             var configuration = GetConfiguration();
 
