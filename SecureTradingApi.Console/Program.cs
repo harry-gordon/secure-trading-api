@@ -110,8 +110,17 @@ namespace SecureTradingApi.Console
                 CurrencyIso3a = "GBP",
                 OrderReference = orderReference,
                 CredentialsOnFile = CredentialsOnFile.UseStored,
-                SiteReference = secureTradingConfig.SiteReference,
-                ParentTransactionReference = parentTransaction.TransactionReference
+                ParentTransactionReference = parentTransaction.TransactionReference,
+                SiteReference = secureTradingConfig.SiteReference
+            });
+
+            var refund = await service.PayoutAsync(new PayoutRequest
+            {
+                BaseAmount = "2100",
+                CurrencyIso3a = "GBP",
+                CredentialsOnFile = CredentialsOnFile.UseStored,
+                ParentTransactionReference = parentTransaction.TransactionReference,
+                SiteReference = secureTradingConfig.SiteReference
             });
 #endif
         }
