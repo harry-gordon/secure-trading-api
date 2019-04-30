@@ -58,5 +58,8 @@ namespace SecureTradingApi.Models.Abstract
         public SecurityResponse SecurityResponseSecurityCode { get; set; }
         [JsonProperty("securityresponseaddress")]
         public SecurityResponse SecurityResponseAddress { get; set; }
+
+        [JsonProperty("credentialsonfile")]
+        public CredentialsOnFile CredentialsOnFile { get; set; }
     }
 }

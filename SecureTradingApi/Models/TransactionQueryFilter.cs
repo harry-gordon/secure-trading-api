@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SecureTradingApi.Enums;
 
 namespace SecureTradingApi.Models
 {
