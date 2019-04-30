@@ -117,7 +117,7 @@ namespace SecureTradingApi.Services
             var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(json);
             var innerResponse = errorResponse.Response;
 
-            if (innerResponse.RequestTypeDescription == RequestTypeDescription.ERROR)
+            if (innerResponse.IsError())
             {
                 var message = $"ST returned an error response: {innerResponse.ErrorMessage} ({innerResponse.ErrorCode})";
                 if (innerResponse.ErrorData.Any())
@@ -126,7 +126,7 @@ namespace SecureTradingApi.Services
                 }
                 throw new SecureTradingException(errorResponse, message);
             }
-
+            
             if (errorResponse.Responses.Length != 1)
             {
                 throw new SecureTradingException(errorResponse, $"Unexpected number of responses in list ({errorResponse.Responses.Length})");
