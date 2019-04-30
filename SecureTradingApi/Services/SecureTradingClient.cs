@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SecureTradingApi.Enums;
 using SecureTradingApi.Exceptions;
 using SecureTradingApi.Models;
 using SecureTradingApi.Models.Abstract;
@@ -40,28 +39,32 @@ namespace SecureTradingApi.Services
 
         public async Task<AuthResponse> AuthAsync(AuthRequest innerRequest)
         {
-            var request = BuildRequest(innerRequest);
-            var response =
-                await PostAsync<SecureTradingRequest<AuthRequest>,
-                    SecureTradingResponse<AuthResponse>>(request);
-            return response.Response;
+            return await RequestAsync<AuthRequest, AuthResponse>(innerRequest);
         }
 
-        public async Task<RefundResponse> PayoutAsync(PayoutRequest innerRequest)
+        public async Task<RefundResponse> PayoutAsync(PayoutRequest request)
+        {
+            return await RequestAsync<PayoutRequest, RefundResponse>(request);
+        }
+
+        public async Task<TransactionUpdateResponse> UpdateTransactionAsync(TransactionUpdateRequest request)
+        {
+            return await RequestAsync<TransactionUpdateRequest, TransactionUpdateResponse>(request);
+        }
+
+        public async Task<CacheTokeniseResponse> CacheTokeniseAsync(CacheTokeniseRequest request)
+        {
+            return await RequestAsync<CacheTokeniseRequest, CacheTokeniseResponse>(request);
+        }
+
+        private async Task<TResponse> RequestAsync<TRequest, TResponse>(TRequest innerRequest)
+            where TRequest : BaseInnerRequest
+            where TResponse : BaseInnerResponse
         {
             var request = BuildRequest(innerRequest);
             var response =
-                await PostAsync<SecureTradingRequest<PayoutRequest>,
-                    SecureTradingResponse<RefundResponse>>(request);
-            return response.Response;
-        }
-
-        public async Task<TransactionUpdateResponse> UpdateTransaction(TransactionUpdateRequest innerRequest)
-        {
-            var request = BuildRequest(innerRequest);
-            var response =
-                await PostAsync<SecureTradingRequest<TransactionUpdateRequest>,
-                    SecureTradingResponse<TransactionUpdateResponse>>(request);
+                await PostAsync<SecureTradingRequest<TRequest>,
+                    SecureTradingResponse<TResponse>>(request);
             return response.Response;
         }
 

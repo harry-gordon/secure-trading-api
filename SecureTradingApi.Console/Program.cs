@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using SecureTradingApi.Enums;
 using SecureTradingApi.Models;
 using SecureTradingApi.Services;
 
@@ -39,11 +40,11 @@ namespace SecureTradingApi.Console
             var byteArray = Encoding.ASCII.GetBytes($"{secureTradingConfig.Username}:{secureTradingConfig.Password}");
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
+#if false
             var cacheToken = "eyJkYXRhY2VudGVydXJsIjogImh0dHBzOi8vd2Vic2VydmljZXMuc2VjdXJldHJhZGluZy5uZXQiLCAiY2FjaGV0b2tlbiI6ICI2LWI3MTUwMzRjNTQ0ZGRmOWVkNDI2MGYxNmNmYTgzYzA1YjQwM2UxNDAyN2FjZTRlNjlmOWRjN2RlNGIzMDA2MDEifQ==";
 
             var orderReference = Guid.NewGuid().ToString();
 
-#if false
             // AUTH a payment
             var auth = await service.AuthAsync(new AuthRequest()
             {
@@ -76,23 +77,45 @@ namespace SecureTradingApi.Console
             });
 #endif
 
-#if false
+#if true
+            var orderReference = Guid.NewGuid().ToString();
+
+            var cacheToken = await service.CacheTokeniseAsync(new CacheTokeniseRequest
+            { 
+                CardNumber = "4111111111111111",
+                ExpiryDate = "12/2024",
+                OrderReference = orderReference,
+                PaymentTypeDescription = "VISA",
+                SecurityCode = "123",
+                SiteReference = secureTradingConfig.SiteReference
+            });
+
             var refund = await service.PayoutAsync(new PayoutRequest
             {
-                CacheToken = cacheToken,
-                BaseAmount = "1050",
+                CacheToken = cacheToken.CacheToken,
+                BaseAmount = "100",
                 CurrencyIso3a = "GBP",
                 SiteReference = secureTradingConfig.SiteReference
             });
-#endif
 
             var query = await service.QueryAsync(new TransactionQueryRequest
             {
                 Filter = new TransactionQueryFilter
                 {
-                    CurrencyIso3a = BuildValueList("GBP")
+                    AccountTypeDescription = BuildValueList(AccountTypeDescription.CFT.ToString())
                 }
             });
+#endif
+
+#if false
+            var queryA = await service.QueryAsync(new TransactionQueryRequest
+            {
+                Filter = new TransactionQueryFilter
+                {
+                    AccountTypeDescription = BuildValueList(AccountTypeDescription.ECOM.ToString())
+                }
+            });
+#endif
         }
 
         private static IConfiguration GetConfiguration()

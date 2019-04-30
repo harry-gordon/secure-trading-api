@@ -9,6 +9,7 @@
         REFUND,
         ORDER,
         ORDERDETAILS,
-        ERROR
+        ERROR,
+        CACHETOKENISE
     }
 }

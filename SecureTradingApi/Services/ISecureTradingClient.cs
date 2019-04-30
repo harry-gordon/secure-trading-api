@@ -8,6 +8,7 @@ namespace SecureTradingApi.Services
         Task<TransactionQueryResponse> QueryAsync(TransactionQueryRequest request);
         Task<AuthResponse> AuthAsync(AuthRequest request);
         Task<RefundResponse> PayoutAsync(PayoutRequest request);
-        Task<TransactionUpdateResponse> UpdateTransaction(TransactionUpdateRequest request);
+        Task<TransactionUpdateResponse> UpdateTransactionAsync(TransactionUpdateRequest request);
+        Task<CacheTokeniseResponse> CacheTokeniseAsync(CacheTokeniseRequest request);
     }
 }
