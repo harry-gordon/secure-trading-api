@@ -85,5 +85,8 @@ namespace SecureTradingApi.Models.Abstract
 
         [JsonProperty("credentialsonfile")]
         public CredentialsOnFile CredentialsOnFile { get; set; }
+
+        [JsonProperty("parenttransactionreference")]
+        public string ParentTransactionReference { get; set; }
     }
 }

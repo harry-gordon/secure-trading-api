@@ -104,23 +104,37 @@ namespace SecureTradingApi.Console
 
             var parentTransaction = query.Records.First(r => r.OrderReference == orderReference);
 
+            var orderReference2 = Guid.NewGuid().ToString();
+
             var auth2 = await service.AuthAsync(new AuthRequest
             {
                 BaseAmount = "1050",
                 CurrencyIso3a = "GBP",
-                OrderReference = orderReference,
+                OrderReference = orderReference2,
                 CredentialsOnFile = CredentialsOnFile.UseStored,
                 ParentTransactionReference = parentTransaction.TransactionReference,
                 SiteReference = secureTradingConfig.SiteReference
             });
 
+            var orderReference3 = Guid.NewGuid().ToString();
+
             var refund = await service.PayoutAsync(new PayoutRequest
             {
                 BaseAmount = "2100",
                 CurrencyIso3a = "GBP",
+                OrderReference = orderReference3,
                 CredentialsOnFile = CredentialsOnFile.UseStored,
                 ParentTransactionReference = parentTransaction.TransactionReference,
                 SiteReference = secureTradingConfig.SiteReference
+            });
+
+            var query2 = await service.QueryAsync(new TransactionQueryRequest
+            {
+                Filter = new TransactionQueryFilter
+                {
+                    OrderReference = BuildValueList(orderReference, orderReference2, orderReference3),
+                    SiteReference = BuildValueList(secureTradingConfig.SiteReference)
+                }
             });
 #endif
         }
