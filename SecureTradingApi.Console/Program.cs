@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using SecureTradingApi.Enums;
@@ -93,18 +94,24 @@ namespace SecureTradingApi.Console
                 SiteReference = secureTradingConfig.SiteReference
             });
 
-            var query = await service.QueryAsync(new TransactionQueryRequest
+            var queryRequest = new TransactionQueryRequest
             {
                 Filter = new TransactionQueryFilter
                 {
                     OrderReference = BuildValueList(orderReference),
                     SiteReference = BuildValueList(secureTradingConfig.SiteReference)
                 }
-            });
+            };
+
+            Thread.Sleep(1000);
+
+            var query = await service.QueryAsync(queryRequest);
 
             var parentTransaction = query.Records.First(r => r.OrderReference == orderReference);
 
             var orderReference2 = Guid.NewGuid().ToString();
+
+            Thread.Sleep(1000);
 
             var auth2 = await service.AuthAsync(new AuthRequest
             {
@@ -128,12 +135,23 @@ namespace SecureTradingApi.Console
                 SiteReference = secureTradingConfig.SiteReference
             });
 
+            Thread.Sleep(1000);
+
             var query2 = await service.QueryAsync(new TransactionQueryRequest
             {
                 Filter = new TransactionQueryFilter
                 {
                     OrderReference = BuildValueList(orderReference, orderReference2, orderReference3),
                     SiteReference = BuildValueList(secureTradingConfig.SiteReference)
+                }
+            });
+
+            var query3 = await service.QueryAsync(new TransactionQueryRequest
+            {
+                Filter = new TransactionQueryFilter
+                {
+                    OrderReference = BuildValueList(orderReference, orderReference2, orderReference3),
+                    RequestTypeDescription = new [] { RequestTypeDescription.AUTH }
                 }
             });
 #endif
