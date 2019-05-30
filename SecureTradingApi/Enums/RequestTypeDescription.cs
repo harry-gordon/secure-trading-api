@@ -10,6 +10,7 @@
         ORDER,
         ORDERDETAILS,
         ERROR,
-        CACHETOKENISE
+        CACHETOKENISE,
+        THREEDQUERY
     }
 }
