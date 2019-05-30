@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using SecureTradingApi.Enums;
 
 namespace SecureTradingApi.Models
@@ -39,5 +41,12 @@ namespace SecureTradingApi.Models
         public ValueWrapper[] ParentTransactionReference { get; set; }
         [JsonProperty("PaymentTypeDescription")]
         public ValueWrapper[] PaymentTypeDescription { get; set; }
+
+        [JsonProperty("RequestTypeDescription")]
+        private ValueWrapper[] _requestTypeDescription =>
+            RequestTypeDescription?.Select(t => new ValueWrapper {Value = t.ToString()}).ToArray();
+
+        [JsonIgnore]
+        public RequestTypeDescription[] RequestTypeDescription { get; set; }
     }
 }
