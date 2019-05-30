@@ -39,10 +39,10 @@ namespace SecureTradingApi.Models
         public ValueWrapper[] CardNumber { get; set; }
         [JsonProperty("parenttransactionreference")]
         public ValueWrapper[] ParentTransactionReference { get; set; }
-        [JsonProperty("PaymentTypeDescription")]
+        [JsonProperty("paymenttypedescription")]
         public ValueWrapper[] PaymentTypeDescription { get; set; }
 
-        [JsonProperty("RequestTypeDescription")]
+        [JsonProperty("requesttypedescription")]
         private ValueWrapper[] _requestTypeDescription =>
             RequestTypeDescription?.Select(t => new ValueWrapper {Value = t.ToString()}).ToArray();
 
