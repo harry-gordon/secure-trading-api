@@ -15,8 +15,6 @@ namespace SecureTradingApi.Models
         public string UpdateReason { get; set; }
         [JsonProperty("sitereference")]
         public string SiteReference { get; set; }
-        [JsonProperty("expirydate")]
-        public string ExpiryDate { get; set; }
         [JsonProperty("fraudrating")]
         public int FraudRating { get; set; }
     }

@@ -65,6 +65,9 @@ namespace SecureTradingApi.Models.Abstract
         [JsonProperty("maskedpan")]
         public string MaskedCardNumber { get; set; }
 
+        [JsonProperty("expirydate")]
+        public string ExpiryDate { get; set; }
+
         [JsonProperty("issuercountryiso2a")]
         public string IssuerCountryIso2a { get; set; }
 
