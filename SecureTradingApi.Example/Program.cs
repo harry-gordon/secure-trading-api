@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using SecureTradingApi.Models;
 using SecureTradingApi.Services;
 
-namespace SecureTradingApi.cONSOLE
+namespace SecureTradingApi.Example
 {
     class Program
     {
