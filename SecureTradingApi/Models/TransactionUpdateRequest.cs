@@ -5,7 +5,7 @@ namespace SecureTradingApi.Models
 {
     public class TransactionUpdateRequest : BaseInnerRequest
     {
-        public TransactionUpdateRequest() : base(RequestTypeDescription.TRANSACTIONUPDATE)
+        public TransactionUpdateRequest() : base(RequestTypeDescriptionEnum.TRANSACTIONUPDATE)
         {
         }
 

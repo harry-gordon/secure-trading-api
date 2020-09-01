@@ -15,7 +15,7 @@ namespace SecureTradingApi.Models.Abstract
         public string ErrorCode { get; set; }
         [JsonProperty("requesttypedescription")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public RequestTypeDescription RequestTypeDescription { get; set; }
+        public RequestTypeDescriptionEnum RequestTypeDescription { get; set; }
         [JsonProperty("transactionstartedtimestamp")]
         public DateTime TransactionStartedTime { get; set; }
     }

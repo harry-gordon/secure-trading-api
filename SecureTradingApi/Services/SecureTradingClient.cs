@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,39 +13,63 @@ namespace SecureTradingApi.Services
 {
     public class SecureTradingClient : ISecureTradingClient
     {
+        #region Fields
         private readonly HttpClient _httpClient;
-        private readonly ISecureTradingConfiguration _config;
-
+        private readonly SecureTradingConfigurationModel _config;
         private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             MissingMemberHandling = MissingMemberHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
+        #endregion
 
-        public SecureTradingClient(HttpClient httpClient, ISecureTradingConfiguration config)
+        #region Constructors
+        public SecureTradingClient(SecureTradingConfigurationModel config)
         {
-            _httpClient = httpClient;
+            _httpClient = new HttpClient();
+            var byteArray = Encoding.ASCII.GetBytes($"{config.Username}:{config.Password}");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
             _config = config;
         }
 
-        public async Task<TransactionQueryResponse> QueryAsync(TransactionQueryRequest innerRequest)
+        public async Task<TransactionQueryResponseModel> QueryAsync(TransactionQueryRequestModel innerRequest)
         {
             var request = BuildRequest(innerRequest);
             var response =
-                await PostAsync<SecureTradingRequest<TransactionQueryRequest>, 
-                    SecureTradingResponse<TransactionQueryResponse>>(request);
+                await PostAsync<SecureTradingRequest<TransactionQueryRequestModel>,
+                    SecureTradingResponse<TransactionQueryResponseModel>>(request);
             return response.Response;
         }
+        #endregion
 
-        public async Task<AuthResponse> AuthAsync(AuthRequest innerRequest)
+        #region Public Methods
+        public async Task<AuthResponseModel> AuthAsync(AuthRequestModel innerRequest)
         {
-            return await RequestAsync<AuthRequest, AuthResponse>(innerRequest);
+            innerRequest.SiteReference = _config.SiteReference;
+            return await RequestAsync<AuthRequestModel, AuthResponseModel>(innerRequest);
         }
 
-        public async Task<RefundResponse> PayoutAsync(PayoutRequest request)
+        public async Task<AuthResponseModel> TokeniseAutheAsync(TokeniseAuthRequestModel innerRequest)
         {
-            return await RequestAsync<PayoutRequest, RefundResponse>(request);
+            innerRequest.SiteReference = _config.SiteReference;
+            return await RequestAsync<TokeniseAuthRequestModel, AuthResponseModel>(innerRequest);
+        }
+
+        public async Task<RefundResponseModel> RefundAsync(RefundRequestModel innerRequest)
+        {
+            innerRequest.SiteReference = _config.SiteReference;
+            return await RequestAsync<RefundRequestModel, RefundResponseModel>(innerRequest);
+        }
+
+        public async Task<TransactionQueryResponseModel> TransactionQueryAsync(TransactionQueryRequestModel innerRequest)
+        {
+            return await RequestAsync<TransactionQueryRequestModel, TransactionQueryResponseModel>(innerRequest);
+        }
+
+        public async Task<RefundResponseModel> PayoutAsync(PayoutRequest request)
+        {
+            return await RequestAsync<PayoutRequest, RefundResponseModel>(request);
         }
 
         public async Task<TransactionUpdateResponse> UpdateTransactionAsync(TransactionUpdateRequest request)
@@ -56,7 +81,9 @@ namespace SecureTradingApi.Services
         {
             return await RequestAsync<CacheTokeniseRequest, CacheTokeniseResponse>(request);
         }
+        #endregion
 
+        #region Private Methods
         private async Task<TResponse> RequestAsync<TRequest, TResponse>(TRequest innerRequest)
             where TRequest : BaseInnerRequest
             where TResponse : BaseInnerResponse
@@ -129,7 +156,7 @@ namespace SecureTradingApi.Services
                 }
                 throw new SecureTradingException(errorResponse, message);
             }
-            
+
             if (errorResponse.Responses.Length != 1)
             {
                 throw new SecureTradingException(errorResponse, $"Unexpected number of responses in list ({errorResponse.Responses.Length})");
@@ -137,5 +164,6 @@ namespace SecureTradingApi.Services
 
             return json;
         }
+        #endregion
     }
 }

@@ -8,7 +8,7 @@ namespace SecureTradingApi.Models
         public class InnerResponse : BaseInnerResponse {
             public bool IsError()
             {
-                return RequestTypeDescription == RequestTypeDescription.ERROR || ErrorCode != "0";
+                return RequestTypeDescription == RequestTypeDescriptionEnum.ERROR || ErrorCode != "0";
             }
         }
     }

@@ -4,7 +4,7 @@ using SecureTradingApi.Enums;
 
 namespace SecureTradingApi.Models
 {
-    public class PayoutRequest : RefundRequest
+    public class PayoutRequest : RefundRequestModel
     {
         [JsonProperty("accounttypedescription")]
         [JsonConverter(typeof(StringEnumConverter))]

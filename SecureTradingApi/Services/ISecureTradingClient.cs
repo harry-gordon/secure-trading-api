@@ -5,10 +5,13 @@ namespace SecureTradingApi.Services
 {
     public interface ISecureTradingClient
     {
-        Task<TransactionQueryResponse> QueryAsync(TransactionQueryRequest request);
-        Task<AuthResponse> AuthAsync(AuthRequest request);
-        Task<RefundResponse> PayoutAsync(PayoutRequest request);
-        Task<TransactionUpdateResponse> UpdateTransactionAsync(TransactionUpdateRequest request);
+        Task<TransactionQueryResponseModel> QueryAsync(TransactionQueryRequestModel request);
+        Task<AuthResponseModel> AuthAsync(AuthRequestModel request);
+        Task<RefundResponseModel> PayoutAsync(PayoutRequest request);
+        //Task<TransactionUpdateResponse> UpdateTransactionAsync(TransactionUpdateRequest request);
         Task<CacheTokeniseResponse> CacheTokeniseAsync(CacheTokeniseRequest request);
+        Task<AuthResponseModel> TokeniseAutheAsync(TokeniseAuthRequestModel innerRequest);
+        Task<RefundResponseModel> RefundAsync(RefundRequestModel innerRequest);
+        Task<TransactionQueryResponseModel> TransactionQueryAsync(TransactionQueryRequestModel innerRequest);
     }
 }

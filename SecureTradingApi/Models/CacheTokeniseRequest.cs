@@ -7,7 +7,7 @@ namespace SecureTradingApi.Models
 {
     public class CacheTokeniseRequest : BaseInnerRequest
     {
-        public CacheTokeniseRequest() : base(RequestTypeDescription.CACHETOKENISE)
+        public CacheTokeniseRequest() : base(RequestTypeDescriptionEnum.CACHETOKENISE)
         {
         }
 

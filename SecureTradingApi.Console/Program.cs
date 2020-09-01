@@ -21,11 +21,8 @@ namespace SecureTradingApi.Console
 
         static async Task MainAsync()
         {
-            System.Console.WriteLine("Hello World!");
-
             var configuration = GetConfiguration();
-
-            var secureTradingConfig = new SecureTradingConfiguration
+            SecureTradingConfigurationModel secureTradingConfig = new SecureTradingConfigurationModel
             {
                 Alias = configuration["SecureTrading:Alias"],
                 SiteReference = configuration["SecureTrading:SiteReference"],
@@ -34,127 +31,20 @@ namespace SecureTradingApi.Console
                 Password = configuration["SecureTrading:Password"],
                 Version = "1.00"
             };
+            SecureTradingClient service = new SecureTradingClient(secureTradingConfig);
 
-            var httpClient = new HttpClient();
-            var service = new SecureTradingClient(httpClient, secureTradingConfig);
-
-            var byteArray = Encoding.ASCII.GetBytes($"{secureTradingConfig.Username}:{secureTradingConfig.Password}");
-            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-
-#if false
             var orderReference = Guid.NewGuid().ToString();
-
-            var cacheToken = await service.CacheTokeniseAsync(new CacheTokeniseRequest
-            { 
-                CardNumber = "4111111111111111",
-                ExpiryDate = "12/2024",
-                OrderReference = orderReference,
-                PaymentTypeDescription = "VISA",
-                SecurityCode = "123",
-                SiteReference = secureTradingConfig.SiteReference
-            });
-
-            var refund = await service.PayoutAsync(new PayoutRequest
-            {
-                CacheToken = cacheToken.CacheToken,
-                BaseAmount = "100",
-                CurrencyIso3a = "GBP",
-                SiteReference = secureTradingConfig.SiteReference
-            });
-
-            var query = await service.QueryAsync(new TransactionQueryRequest
-            {
-                Filter = new TransactionQueryFilter
-                {
-                    AccountTypeDescription = BuildValueList(AccountTypeDescription.CFT.ToString())
-                }
-            });
-#endif
-
-#if true
-            var orderReference = Guid.NewGuid().ToString();
-
-            var cacheToken = await service.CacheTokeniseAsync(new CacheTokeniseRequest
-            {
-                CardNumber = "4111111111111111",
-                ExpiryDate = "12/2024",
-                OrderReference = orderReference,
-                PaymentTypeDescription = "VISA",
-                SecurityCode = "123",
-                SiteReference = secureTradingConfig.SiteReference
-            });
-            
-            var auth = await service.AuthAsync(new AuthRequest
+            AuthResponseModel auth = await service.AuthAsync(new AuthRequestModel
             {
                 BaseAmount = "1050",
-                CacheToken = cacheToken.CacheToken,
-                CurrencyIso3a = "GBP",
+                PAN = "4111111111111111",
+                CVV = "123",
+                Expiry = "12/2020",
+                Currency = "GBP",
                 OrderReference = orderReference,
-                CredentialsOnFile = CredentialsOnFile.Store,
-                SiteReference = secureTradingConfig.SiteReference
             });
 
-            var queryRequest = new TransactionQueryRequest
-            {
-                Filter = new TransactionQueryFilter
-                {
-                    OrderReference = BuildValueList(orderReference),
-                    SiteReference = BuildValueList(secureTradingConfig.SiteReference)
-                }
-            };
-
-            Thread.Sleep(1000);
-
-            var query = await service.QueryAsync(queryRequest);
-
-            var parentTransaction = query.Records.First(r => r.OrderReference == orderReference);
-
-            var orderReference2 = Guid.NewGuid().ToString();
-
-            Thread.Sleep(1000);
-
-            var auth2 = await service.AuthAsync(new AuthRequest
-            {
-                BaseAmount = "1050",
-                CurrencyIso3a = "GBP",
-                OrderReference = orderReference2,
-                CredentialsOnFile = CredentialsOnFile.UseStored,
-                ParentTransactionReference = parentTransaction.TransactionReference,
-                SiteReference = secureTradingConfig.SiteReference
-            });
-
-            var orderReference3 = Guid.NewGuid().ToString();
-
-            var refund = await service.PayoutAsync(new PayoutRequest
-            {
-                BaseAmount = "2100",
-                CurrencyIso3a = "GBP",
-                OrderReference = orderReference3,
-                CredentialsOnFile = CredentialsOnFile.UseStored,
-                ParentTransactionReference = parentTransaction.TransactionReference,
-                SiteReference = secureTradingConfig.SiteReference
-            });
-
-            Thread.Sleep(1000);
-
-            var query2 = await service.QueryAsync(new TransactionQueryRequest
-            {
-                Filter = new TransactionQueryFilter
-                {
-                    OrderReference = BuildValueList(orderReference, orderReference2, orderReference3),
-                    SiteReference = BuildValueList(secureTradingConfig.SiteReference)
-                }
-            });
-
-            var query3 = await service.QueryAsync(new TransactionQueryRequest
-            {
-                Filter = new TransactionQueryFilter
-                {
-                    OrderReference = BuildValueList(orderReference, orderReference2, orderReference3),
-                    RequestTypeDescription = new [] { RequestTypeDescription.AUTH }
-                }
-            });
-#endif
+            System.Console.WriteLine("Hello World!");
         }
 
         private static IConfiguration GetConfiguration()
@@ -164,11 +54,6 @@ namespace SecureTradingApi.Console
                 .AddJsonFile("AppSettings.json", optional: true, reloadOnChange: true);
 
             return builder.Build();
-        }
-
-        private static ValueWrapper[] BuildValueList(params string[] values)
-        {
-            return values.Select(v => new ValueWrapper {Value = v}).ToArray();
         }
     }
 }
