@@ -7,9 +7,9 @@ namespace SecureTradingApi.Models.Abstract
     public abstract class BaseInnerRequest
     {
         [JsonProperty("requesttypedescriptions", ItemConverterType = typeof(StringEnumConverter))]
-        protected RequestTypeDescription[] _requestTypeDescriptions { get; }
+        protected RequestTypeDescriptionEnum[] _requestTypeDescriptions { get; }
 
-        protected BaseInnerRequest(RequestTypeDescription requestTypeDescription)
+        protected BaseInnerRequest(RequestTypeDescriptionEnum requestTypeDescription)
         {
             _requestTypeDescriptions = new [] { requestTypeDescription };
         }
